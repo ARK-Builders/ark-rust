@@ -1,5 +1,6 @@
 [workspace]
 members = [
+    "ark-cli",
     "data-error",
     "data-json",
     "data-link",
@@ -12,6 +13,7 @@ members = [
 ]
 
 default-members = [
+    "ark-cli",
     "data-error",
     "data-json",
     "data-link",

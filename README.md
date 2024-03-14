@@ -14,6 +14,7 @@ The purpose of the library is to manage _resource index_ of folders with various
 
 | Package         | Description                              |
 | --------------- | ---------------------------------------- |
+| `ark-cli`       | The CLI tool to interact with ark crates |
 | `data-resource` | Resource hashing and ID construction     |
 | `fs-index`      | Resource Index construction and updating |
 | `fs-storage`    | Filesystem storage for resources         |

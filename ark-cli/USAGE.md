@@ -3,18 +3,21 @@
 ## Get started
 
 Create an empty dir:
+
 ```
 mkdir /tmp/test
 cd /tmp/test
 ```
 
 Let's fill it with something. One of the simplest ways to create resources it is to save a link to web page using `ark-cli link` command:
+
 ```
 $ ark-cli link create . http://google.com goo
 $ ark-cli link create . http://duckduckgo.com duck
 ```
 
 We can use `ark-cli list` to see just created resources:
+
 ```
 22-207093268
 18-1909444406
@@ -23,6 +26,7 @@ We can use `ark-cli list` to see just created resources:
 These are just ids, derived from the URLs themselves.
 
 Now, the dir structure should resemble this:
+
 ```
 /tmp/test
 └───.ark
@@ -36,19 +40,22 @@ Now, the dir structure should resemble this:
         └───tags
 ```
 
-### Label your data 
+### Label your data
 
 You can attach various metadata to your data, e.g. tags:
+
 ```
 $ ark-cli file append . tags 22-207093268 search,engine
 ```
 
 The same way we can append scores:
+
 ```
 $ ark-cli file append . scores 22-207093268 15
 ```
 
 Generic metadata is possible using JSON-based properties:
+
 ```
 $ ark-cli file append . properties 22-207093268 favorites:false,ai:true --format=json
 ```
@@ -56,6 +63,7 @@ $ ark-cli file append . properties 22-207093268 favorites:false,ai:true --format
 ### Navigate your data
 
 The simplest command to observe your resources is `list`:
+
 ```
 $ ark-cli list
 
@@ -64,6 +72,7 @@ $ ark-cli list
 ```
 
 You can also target this command to other folders:
+
 ```
 $ ark-cli list ~/Pictures/
 
@@ -74,14 +83,16 @@ $ ark-cli list ~/Pictures/
 ```
 
 But it's a bit boring and doesn't really tell anything, right? Various flags should be used to gain more knowledge about your collections of resources:
-* `--entry=id|path|both|link` to show the path,the id or both of a resource
-* `--timestamp=true` to show or not the last modified timestamp of a resource
-* `--tags=true` to show or not the tags for every resource
-* `--scores=true` to show or not the scores for every resource
-* `--sort=asc|desc` to sort resources by asc or dsc order of scores
-* `--filter=query` to filter resources by their tags
+
+- `--entry=id|path|both|link` to show the path,the id or both of a resource
+- `--timestamp=true` to show or not the last modified timestamp of a resource
+- `--tags=true` to show or not the tags for every resource
+- `--scores=true` to show or not the scores for every resource
+- `--sort=asc|desc` to sort resources by asc or dsc order of scores
+- `--filter=query` to filter resources by their tags
 
 For instance, you can list files with their paths and attached tags:
+
 ```
 $ ark-cli list -pt
 
@@ -104,6 +115,7 @@ https://github.com
 ```
 
 Or, sort by score:
+
 ```
 $ ark-cli list -s --sort=asc
 
@@ -114,6 +126,7 @@ $ ark-cli list -s --sort=asc
 ```
 
 Finally, you can filter resources using their tags:
+
 ```
 $ /tmp/ark-cli list -t --filter=search
 
@@ -128,12 +141,14 @@ There are commands which could be useful with time, when you grasp the basic con
 ### Retrieve the metadata
 
 You can read these properties:
+
 ```
 $ ark-cli file read . properties 22-207093268
 {"ai":"true","desc":null,"favorites":"false","title":"duck"}
 ```
 
 As well as scores or tags:
+
 ```
 $ ark-cli file read . scores 22-207093268
 15
@@ -144,6 +159,7 @@ search,engine
 ### Inspect storages
 
 It's also possible to list resources having some metadata in a particular storage:
+
 ```
 $ ark-cli storage list . properties
 22-207093268
@@ -161,6 +177,7 @@ Note that, in this example, resource with id `18-1909444406` is listed only in `
 ### Inspect versions
 
 For delving into history of storage mutations, we made `--versions` flag:
+
 ```
 $ ark-cli storage list . properties --versions=true
 version  name           machine                              path
@@ -168,9 +185,10 @@ version  name           machine                              path
 1        18-1909444406  0592a937-a5d1-4843-8f03-ae0d6a9e77b5 ./.ark/user/properties/18-1909444406/18-1909444406_0592a937-a5d1-4843-8f03-ae0d6a9e77b5.1
 ```
 
-Each storage mutation made by `ark-cli file append` or `ark-cli file insert` commands increases the number in `version` column. Versions help to prevent dirty-writes caused by using same storages by separate apps, or devices. 
+Each storage mutation made by `ark-cli file append` or `ark-cli file insert` commands increases the number in `version` column. Versions help to prevent dirty-writes caused by using same storages by separate apps, or devices.
 
 The `properties` storage is _folder-based_, but same command can be used with _file-based_ storages like `tags`:
+
 ```
 $ ark-cli storage list . tags --versions=true
 Loading app id at /home/kirill/.ark...
