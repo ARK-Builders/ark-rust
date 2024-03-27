@@ -1,6 +1,5 @@
 use anyhow::anyhow;
 use crc32fast::Hasher;
-use log;
 use serde::{Deserialize, Serialize};
 use std::fmt::{self, Display, Formatter};
 use std::fs;

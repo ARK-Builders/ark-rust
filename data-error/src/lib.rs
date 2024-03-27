@@ -1,4 +1,4 @@
-use std::str::Utf8Error;
+use std::{convert::Infallible, str::Utf8Error};
 use thiserror::Error;
 
 pub type Result<T> = std::result::Result<T, ArklibError>;
@@ -15,6 +15,9 @@ pub enum ArklibError {
     Parse,
     #[error("Networking error")]
     Network,
+    /// Storage error shows label and error message
+    #[error("Storage error: {0} {1}")]
+    Storage(String, String),
     #[error(transparent)]
     Other(#[from] anyhow::Error),
 }
@@ -46,5 +49,17 @@ impl From<url::ParseError> for ArklibError {
 impl From<Box<dyn std::error::Error>> for ArklibError {
     fn from(e: Box<dyn std::error::Error>) -> Self {
         Self::Other(anyhow::anyhow!(e.to_string()))
+    }
+}
+
+impl From<&str> for ArklibError {
+    fn from(e: &str) -> Self {
+        Self::Other(anyhow::anyhow!(e.to_string()))
+    }
+}
+
+impl From<Infallible> for ArklibError {
+    fn from(_: Infallible) -> Self {
+        Self::Parse
     }
 }

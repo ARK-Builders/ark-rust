@@ -1,3 +1,4 @@
+pub mod file_storage;
 pub const ARK_FOLDER: &str = ".ark";
 
 // Should not be lost if possible
