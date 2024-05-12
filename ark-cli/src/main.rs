@@ -452,6 +452,11 @@ async fn main() -> anyhow::Result<()> {
             let img = render_preview_page(buf, quality);
             img.save(dest_path).unwrap();
         }
+        Command::Watch { path } => {
+            let canonicalized_path = std::fs::canonicalize(path.clone())?;
+            println!("Watching path: {:?}", canonicalized_path);
+            fs_index::watch::watch_index(path.clone()).await?;
+        }
         Command::Link(link) => match &link {
             Link::Create {
                 root_dir,

@@ -6,6 +6,7 @@ extern crate canonical_path;
 use data_error::{ArklibError, Result};
 
 pub mod index;
+pub mod watch;
 
 pub use fs_atomic_versions::atomic::{modify, modify_json, AtomicFile};
 pub use fs_storage::{ARK_FOLDER, INDEX_PATH};

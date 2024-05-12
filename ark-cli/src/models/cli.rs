@@ -88,6 +88,18 @@ pub enum Command {
         filter: Option<String>,
     },
 
+    #[clap(
+        about = "Watch a directory for changes and update the index automatically"
+    )]
+    Watch {
+        #[clap(
+            help = "Path to the directory to watch for changes",
+            default_value = ".",
+            value_parser
+        )]
+        path: PathBuf,
+    },
+
     #[clap(subcommand)]
     Link(Link),
 
