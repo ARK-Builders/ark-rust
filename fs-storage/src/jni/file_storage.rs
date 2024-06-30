@@ -14,7 +14,7 @@ use jni::objects::{JClass, JObject, JString, JValue};
 // This is just a pointer. We'll be returning it from our function. We
 // can't return one of the objects with lifetime information because the
 // lifetime checker won't let us.
-use jni::sys::{jlong, jobject};
+use jni::sys::{jlong, jobject, jstring};
 use jnix::{IntoJava, JnixEnv};
 
 use crate::base_storage::BaseStorage;
@@ -22,7 +22,7 @@ use crate::base_storage::BaseStorage;
 use crate::file_storage::FileStorage;
 
 impl FileStorage<String, String> {
-    fn from_jlong<'a>(value: jlong) -> &'a mut Self {
+    pub fn from_jlong<'a>(value: jlong) -> &'a mut Self {
         unsafe { &mut *(value as *mut FileStorage<String, String>) }
     }
 }
@@ -172,6 +172,31 @@ pub extern "system" fn Java_dev_arkbuilders_core_FileStorage_readFS(
     linked_hash_map.as_raw()
 }
 
+#[no_mangle]
+pub extern "system" fn Java_dev_arkbuilders_core_FileStorage_get<'local>(
+    mut env: JNIEnv<'local>,
+    _class: JClass<'local>,
+    id: JString<'local>,
+    file_storage_ptr: jlong,
+) -> jstring {
+    let id: String = env
+        .get_string(&id)
+        .expect("Failed to get string from JNI")
+        .into();
+    let file_storage = FileStorage::from_jlong(file_storage_ptr);
+
+    match file_storage.get(&id) {
+        Ok(value) => env
+            .new_string(value)
+            .expect("Failed to create new JString")
+            .into_raw(),
+        Err(err) => {
+            env.throw_new("java/lang/RuntimeException", &err.to_string())
+                .unwrap();
+            env.new_string("").expect("").into_raw()
+        }
+    }
+}
 #[no_mangle]
 pub extern "system" fn Java_dev_arkbuilders_core_FileStorage_writeFS(
     mut env: JNIEnv<'_>,

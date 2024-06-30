@@ -6,6 +6,7 @@ import org.junit.jupiter.api.io.TempDir;
 import java.io.File;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -112,6 +113,42 @@ public class FileStorageTest {
         fileStorage.erase();
         File file = storagePath.toFile();
         assertFalse(file.exists());
+    }
+
+    @Test
+    public void testFileStorageGet() {
+        Path storagePath = tempDir.resolve("test.txt");
+        FileStorage fileStorage = new FileStorage("test", storagePath.toString());
+
+        fileStorage.set("key", "value");
+        fileStorage.set("key", "value1");
+        fileStorage.set("key1", "value");
+
+        assertEquals("value1", fileStorage.get("key"));
+        assertEquals("value", fileStorage.get("key1"));
+    }
+
+    @Test
+    public void testBTreeMapIterator(){
+        Path storagePath = tempDir.resolve("test.txt");
+        FileStorage fileStorage = new FileStorage("test", storagePath.toString());
+
+        fileStorage.set("key", "value");
+        fileStorage.set("key", "value1");
+        fileStorage.set("key1", "value");
+
+        fileStorage.writeFS();
+
+        @SuppressWarnings("unchecked")
+        LinkedHashMap<String, String> data = (LinkedHashMap<String, String>) fileStorage.readFS();
+
+        BTreeMapIterator bTreeMapIterator = fileStorage.iterator();
+        Map<String, String> iteratorData = new LinkedHashMap<>();
+        while(bTreeMapIterator.hasNext()){
+            Map.Entry<String, String> entry = bTreeMapIterator.next();
+            iteratorData.put(entry.getKey(), entry.getValue());
+        }
+        assertEquals(data, iteratorData);
     }
 
     @Test

@@ -16,7 +16,7 @@ log = { version = "0.4.17", features = ["release_max_level_off"] }
 serde_json = "1.0.82"
 serde = { version = "1.0.138", features = ["derive"] }
 jni = { version = "0.21.1", optional = true }
-jnix = { version = "0.5.1", features = ["derive"] }
+jnix = { version = "0.5.1", features = ["derive"], optional = true }
 
 data-error = { path = "../data-error" }
 
@@ -27,4 +27,4 @@ tempdir = "0.3.7"
 
 [features]
 default = ["jni-bindings"]
-jni-bindings = ["jni"]
+jni-bindings = ["jni", "jnix"]

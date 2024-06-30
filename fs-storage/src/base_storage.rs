@@ -57,6 +57,9 @@ pub trait BaseStorage<K, V>: AsRef<BTreeMap<K, V>> {
     /// from pre-configured location in the filesystem.
     fn read_fs(&mut self) -> Result<&BTreeMap<K, V>>;
 
+    /// Get a value from the internal key-value mapping.
+    fn get(&self, id: &K) -> Result<&V>;
+
     /// Write the internal key-value mapping
     /// to pre-configured location in the filesystem.
     fn write_fs(&mut self) -> Result<()>;

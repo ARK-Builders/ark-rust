@@ -45,6 +45,8 @@ public class FileStorage {
 
     private static native Object readFS(long file_storage_ptr);
 
+    private static native String get(String id, long file_storage_ptr);
+
     private static native void writeFS(long file_storage_ptr);
 
     private static native void erase(long file_storage_ptr);
@@ -108,6 +110,16 @@ public class FileStorage {
     }
 
     /**
+     * Get the value of a key from the internal mapping.
+     *
+     * @param id The key.
+     * @return The value.
+     */
+    public String get(String id) {
+        return get(id, this.fileStoragePtr);
+    }
+
+    /**
      * Write the data to file.
      * 
      * Note: Update the modified timestamp in file metadata to avoid OS timing
@@ -132,5 +144,14 @@ public class FileStorage {
      */
     public void merge(FileStorage other) {
         merge(this.fileStoragePtr, other.fileStoragePtr);
+    }
+
+    /**
+     * Create a new iterator for the BTreeMap
+     * 
+     * @return The iterator
+     */
+    public BTreeMapIterator iterator() {
+        return new BTreeMapIterator(this.fileStoragePtr);
     }
 }
