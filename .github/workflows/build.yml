@@ -48,7 +48,7 @@ jobs:
           java-version: "22"
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Java tests
         run: gradle test
@@ -77,7 +77,7 @@ jobs:
           java-version: "22"
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Java tests
         run: gradle test
@@ -106,7 +106,7 @@ jobs:
           java-version: "22"
 
       - name: Set up Gradle
-        uses: gradle/gradle-build-action@v3
+        uses: gradle/actions/setup-gradle@v3
 
       - name: Java tests
         run: gradle test
