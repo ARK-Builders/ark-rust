@@ -1,9 +1,8 @@
-use std::path::PathBuf;
-use std::str::FromStr;
+use std::{path::PathBuf, str::FromStr};
 
 use crate::{
-    models::storage::Storage, models::storage::StorageType, translate_storage,
-    AppError, Format, ResourceId,
+    models::storage::{Storage, StorageType},
+    translate_storage, AppError, Format, ResourceId,
 };
 
 use data_error::ArklibError;

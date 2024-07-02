@@ -1,7 +1,8 @@
 use lazy_static::lazy_static;
-use std::path::PathBuf;
-use std::sync::Once;
-use std::sync::RwLock;
+use std::{
+    path::PathBuf,
+    sync::{Once, RwLock},
+};
 
 pub mod app_id;
 pub mod atomic;

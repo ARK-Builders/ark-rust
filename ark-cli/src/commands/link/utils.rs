@@ -3,8 +3,7 @@ use data_link::Link;
 use std::path::PathBuf;
 use url::Url;
 
-use crate::error::AppError;
-use crate::util::provide_index; // Import your custom AppError type
+use crate::{error::AppError, util::provide_index}; // Import your custom AppError type
 
 pub async fn create_link(
     root: &PathBuf,
@@ -28,8 +27,17 @@ pub fn load_link(
 ) -> Result<Link<ResourceId>, AppError> {
     let path_from_index = id.clone().map(|id| {
         let index = provide_index(root);
-        index.id2path[&id].as_path().to_path_buf()
+        index
+            .get_resources_by_id(&id)
+            .map(|r| r[0].path().to_owned())
+            .ok_or_else(|| {
+                AppError::IndexError(format!(
+                    "Resource with id {} not found",
+                    id
+                ))
+            })
     });
+    let path_from_index = path_from_index.transpose()?;
     let path_from_user = file_path;
 
     let path = match (path_from_user, path_from_index) {
@@ -46,7 +54,7 @@ pub fn load_link(
             }
         }
         (Some(path), None) => Ok(path.to_path_buf()),
-        (None, Some(path)) => Ok(path),
+        (None, Some(path)) => Ok(path.to_path_buf()),
         (None, None) => Err(AppError::LinkLoadError(
             "Provide a path or id for request.".to_owned(),
         ))?,

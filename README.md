@@ -76,7 +76,7 @@ cargo bench
 This command runs all benchmarks and generates a report in HTML format located at `target/criterion/report`. If you wish to run a specific benchmark, you can specify its name as an argument as in:
 
 ```bash
-cargo bench index_build
+cargo bench resource_index
 ```
 
 ### Benchmarking Local Files
@@ -97,10 +97,10 @@ To install `flamegraph`, run:
 cargo install flamegraph
 ```
 
-To generate a flame graph for `index_build_benchmark`, use the following command:
+To generate a flame graph for `resource_index_benchmark`, use the following command:
 
 ```bash
-cargo flamegraph --bench index_build_benchmark -o index_build_benchmark.svg -- --bench
+cargo flamegraph --bench resource_index_benchmark -o resource_index_benchmark.svg -- --bench
 ```
 
 > [!NOTE]

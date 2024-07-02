@@ -12,9 +12,8 @@ bench = false
 log = { version = "0.4.17", features = ["release_max_level_off"] }
 walkdir = "2.3.2"
 anyhow = "1.0.58"
-canonical-path = "2.0.2"
-pathdiff = "0.2.1"
-itertools = "0.10.5"
+serde_json = "1.0"
+serde = { version = "1.0", features = ["derive"] }
 
 
 fs-storage = { path = "../fs-storage" }
@@ -26,11 +25,11 @@ data-resource = { path = "../data-resource" }
 uuid = { version = "1.6.1", features = ["v4"] }
 # benchmarking
 criterion = { version = "0.5", features = ["html_reports"] }
+tempfile = "3.10"
 # Depending on `dev-hash` for testing
 dev-hash = { path = "../dev-hash" }
-fs-atomic-versions = { path = "../fs-atomic-versions" }
 
 [[bench]]
-name = "index_build_benchmark"
+name = "resource_index_benchmark"
 harness = false
-path = "benches/index_build_benchmark.rs"
+path = "benches/resource_index_benchmark.rs"

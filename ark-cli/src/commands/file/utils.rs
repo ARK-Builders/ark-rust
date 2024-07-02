@@ -1,6 +1,7 @@
-use crate::error::AppError;
-use crate::models::key_value_to_str;
-use crate::models::Format;
+use crate::{
+    error::AppError,
+    models::{key_value_to_str, Format},
+};
 use data_error::Result as ArklibResult;
 use fs_atomic_versions::atomic::{modify, modify_json, AtomicFile};
 

@@ -26,7 +26,8 @@ impl Render {
         let dest_path = filepath.with_file_name(
             filepath
                 .file_stem()
-                // SAFETY: we know that the file stem is valid UTF-8 because it is a file name
+                // SAFETY: we know that the file stem is valid UTF-8 because it
+                // is a file name
                 .unwrap()
                 .to_str()
                 .unwrap()

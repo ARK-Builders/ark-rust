@@ -2,11 +2,13 @@ use lazy_static::lazy_static;
 extern crate canonical_path;
 
 use data_error::{ArklibError, Result};
-use fs_index::ResourceIndex;
+use fs_index::{load_or_build_index, ResourceIndex};
 
-use std::collections::HashMap;
-use std::path::Path;
-use std::sync::{Arc, RwLock};
+use std::{
+    collections::HashMap,
+    path::Path,
+    sync::{Arc, RwLock},
+};
 
 use crate::ResourceId;
 
@@ -34,7 +36,9 @@ pub fn provide_index<P: AsRef<Path>>(
     }
 
     log::info!("Index has not been registered before");
-    match ResourceIndex::provide(&root_path) {
+    // If the index has not been registered before, we need to load it, update
+    // it and register it
+    match load_or_build_index(&root_path, true) {
         Ok(index) => {
             let mut registrar = REGISTRAR.write().map_err(|_| {
                 ArklibError::Other(anyhow::anyhow!("Failed to lock registrar"))

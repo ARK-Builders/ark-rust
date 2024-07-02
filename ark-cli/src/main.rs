@@ -1,5 +1,7 @@
-use std::fs::{create_dir_all, File};
-use std::path::PathBuf;
+use std::{
+    fs::{create_dir_all, File},
+    path::PathBuf,
+};
 
 use crate::index_registrar::provide_index;
 use data_pdf::{render_preview_page, PDFQuality};
@@ -15,25 +17,23 @@ use fs_storage::ARK_FOLDER;
 
 use anyhow::Result;
 
-use chrono::prelude::DateTime;
-use chrono::Utc;
+use chrono::{prelude::DateTime, Utc};
 
-use clap::CommandFactory;
-use clap::FromArgMatches;
+use clap::{CommandFactory, FromArgMatches};
 
 use fs_extra::dir::{self, CopyOptions};
 
 use home::home_dir;
 
-use crate::cli::Cli;
-use crate::commands::file::File::{Append, Insert, Read};
-use crate::commands::link::Link::{Create, Load};
-use crate::commands::Commands::Link;
-use crate::commands::Commands::Storage;
-use crate::commands::Commands::*;
-use crate::models::EntryOutput;
-use crate::models::Format;
-use crate::models::Sort;
+use crate::{
+    cli::Cli,
+    commands::{
+        file::File::{Append, Insert, Read},
+        link::Link::{Create, Load},
+        Commands::{Link, Storage, *},
+    },
+    models::{EntryOutput, Format, Sort},
+};
 
 use crate::error::AppError;
 

@@ -3,16 +3,16 @@
 //! `data-resource` is a crate for managing resource identifiers.
 use core::{fmt::Display, str::FromStr};
 use data_error::Result;
-use serde::de::DeserializeOwned;
-use serde::Serialize;
+use serde::{de::DeserializeOwned, Serialize};
 use std::{fmt::Debug, hash::Hash, path::Path};
 
 /// This trait defines a generic type representing a resource identifier.
 ///
-/// Resources are identified by a hash value, which is computed from the resource's data.
-/// The hash value is used to uniquely identify the resource.
+/// Resources are identified by a hash value, which is computed from the
+/// resource's data. The hash value is used to uniquely identify the resource.
 ///
-/// Implementors of this trait must provide a way to compute the hash value from the resource's data.
+/// Implementors of this trait must provide a way to compute the hash value from
+/// the resource's data.
 pub trait ResourceId:
     Debug
     + Display

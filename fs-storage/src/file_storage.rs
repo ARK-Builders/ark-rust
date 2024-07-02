@@ -1,15 +1,17 @@
 use serde::{Deserialize, Serialize};
-use std::fs::{self, File};
-use std::io::Write;
-use std::time::SystemTime;
 use std::{
     collections::BTreeMap,
+    fs::{self, File},
+    io::Write,
     path::{Path, PathBuf},
+    time::SystemTime,
 };
 
-use crate::base_storage::{BaseStorage, SyncStatus};
-use crate::monoid::Monoid;
-use crate::utils::read_version_2_fs;
+use crate::{
+    base_storage::{BaseStorage, SyncStatus},
+    monoid::Monoid,
+    utils::read_version_2_fs,
+};
 use data_error::{ArklibError, Result};
 
 /*
@@ -80,8 +82,8 @@ where
     /// Create a new file storage with a diagnostic label and file path
     /// The storage will be initialized using the disk data, if the path exists
     ///
-    /// Note: if the file storage already exists, the data will be read from the file
-    /// without overwriting it.
+    /// Note: if the file storage already exists, the data will be read from the
+    /// file without overwriting it.
     pub fn new(label: String, path: &Path) -> Result<Self> {
         let time = SystemTime::now();
         let mut storage = Self {
@@ -114,7 +116,8 @@ where
         // First check if the file starts with "version: 2"
         let file_content = std::fs::read_to_string(&self.path)?;
         if file_content.starts_with("version: 2") {
-            // Attempt to parse the file using the legacy version 2 storage format of FileStorage.
+            // Attempt to parse the file using the legacy version 2 storage
+            // format of FileStorage.
             match read_version_2_fs(&self.path) {
                 Ok(data) => {
                     log::info!(
@@ -193,14 +196,14 @@ where
 
         // Determine the synchronization status based on the modification times
         // Conditions:
-        // 1. If both the in-memory storage and the storage on disk have been modified
-        //    since the last write, then the storage is diverged.
-        // 2. If only the in-memory storage has been modified since the last write,
-        //    then the storage on disk is stale.
-        // 3. If only the storage on disk has been modified since the last write,
-        //    then the in-memory storage is stale.
-        // 4. If neither the in-memory storage nor the storage on disk has been modified
-        //    since the last write, then the storage is in sync.
+        // 1. If both the in-memory storage and the storage on disk have been
+        //    modified since the last write, then the storage is diverged.
+        // 2. If only the in-memory storage has been modified since the last
+        //    write, then the storage on disk is stale.
+        // 3. If only the storage on disk has been modified since the last
+        //    write, then the in-memory storage is stale.
+        // 4. If neither the in-memory storage nor the storage on disk has been
+        //    modified since the last write, then the storage is in sync.
         let status = match (
             self.modified > self.written_to_disk,
             file_updated > self.written_to_disk,

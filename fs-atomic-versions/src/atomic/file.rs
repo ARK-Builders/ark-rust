@@ -1,8 +1,10 @@
-use std::fs::{self, File};
-use std::io::{Error, ErrorKind, Read, Result};
-#[cfg(target_os = "unix")]
+#[cfg(target_family = "unix")]
 use std::os::unix::fs::MetadataExt;
-use std::path::{Path, PathBuf};
+use std::{
+    fs::{self, File},
+    io::{Error, ErrorKind, Read, Result},
+    path::{Path, PathBuf},
+};
 
 use crate::app_id;
 
@@ -229,7 +231,7 @@ impl AtomicFile {
         // May return `EEXIST`.
         let res = std::fs::hard_link(&new.path, new_path);
         if let Err(err) = res {
-            #[cfg(target_os = "unix")]
+            #[cfg(target_family = "unix")]
             // From open(2) manual page:
             //
             // "[...] create a unique file on the same filesystem (e.g.,
@@ -241,7 +243,7 @@ impl AtomicFile {
             if new.path.metadata()?.nlink() != 2 {
                 Err(err)?;
             }
-            #[cfg(not(target_os = "unix"))]
+            #[cfg(not(target_family = "unix"))]
             Err(err)?;
         }
 

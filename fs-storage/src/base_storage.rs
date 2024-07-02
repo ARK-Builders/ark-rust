@@ -30,16 +30,22 @@ impl std::fmt::Display for SyncStatus {
     }
 }
 
-/// The `BaseStorage` trait represents a key-value mapping that is written to the file system.
+/// The `BaseStorage` trait represents a key-value mapping that is written to
+/// the file system.
 ///
-/// This trait provides methods to create or update entries in the internal mapping, remove entries from the internal mapping,
-/// determine if the in-memory model or the underlying storage requires syncing, scan and load the mapping from the filesystem,
-/// write the mapping to the filesystem, and remove all stored data.
+/// This trait provides methods to create or update entries in the internal
+/// mapping, remove entries from the internal mapping, determine if the
+/// in-memory model or the underlying storage requires syncing, scan and load
+/// the mapping from the filesystem, write the mapping to the filesystem, and
+/// remove all stored data.
 ///
-/// The trait also includes a method to merge values from another key-value mapping.
+/// The trait also includes a method to merge values from another key-value
+/// mapping.
 ///
-/// Note: The trait does not write to storage by default. It is up to the implementor to decide when to read or write to storage
-/// based on `SyncStatus`. This is to allow for trading off between performance and consistency.
+/// Note: The trait does not write to storage by default. It is up to the
+/// implementor to decide when to read or write to storage
+/// based on `SyncStatus`. This is to allow for trading off between performance
+/// and consistency.
 pub trait BaseStorage<K, V>: AsRef<BTreeMap<K, V>> {
     /// Create or update an entry in the internal mapping.
     fn set(&mut self, id: K, value: V);

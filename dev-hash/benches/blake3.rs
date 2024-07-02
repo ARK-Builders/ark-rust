@@ -17,7 +17,8 @@ fn generate_random_data(size: usize) -> Vec<u8> {
     (0..size).map(|_| rng.gen()).collect()
 }
 
-/// Benchmarks the performance of resource ID creation from file paths and random data.
+/// Benchmarks the performance of resource ID creation from file paths and
+/// random data.
 ///
 /// - Measures the time taken to create a resource ID from file paths.
 /// - Measures the time taken to create a resource ID from random data.

@@ -1,6 +1,5 @@
 use data_error::Result;
-use std::collections::BTreeMap;
-use std::path::Path;
+use std::{collections::BTreeMap, path::Path};
 
 /// Parses version 2 `FileStorage` format and returns the data as a BTreeMap
 ///

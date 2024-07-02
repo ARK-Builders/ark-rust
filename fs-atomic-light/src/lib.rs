@@ -1,9 +1,6 @@
 use data_error::Result;
 
-use std::env;
-use std::fs;
-use std::path::Path;
-use std::str;
+use std::{env, fs, path::Path, str};
 
 /// Write data to a tempory file and move that written file to destination
 ///

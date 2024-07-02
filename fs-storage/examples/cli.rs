@@ -1,10 +1,7 @@
 use anyhow::{Context, Result};
-use fs_storage::base_storage::BaseStorage;
-use fs_storage::file_storage::FileStorage;
+use fs_storage::{base_storage::BaseStorage, file_storage::FileStorage};
 use serde_json::Value;
-use std::env;
-use std::fs;
-use std::path::Path;
+use std::{env, fs, path::Path};
 
 fn main() {
     if let Err(e) = run() {

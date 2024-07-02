@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
 use crate::{
-    models::storage::Storage, models::storage::StorageType, translate_storage,
-    AppError,
+    models::storage::{Storage, StorageType},
+    translate_storage, AppError,
 };
 
 #[derive(Clone, Debug, clap::Args)]

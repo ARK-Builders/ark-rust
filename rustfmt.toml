@@ -1,15 +1,18 @@
+# General settings
+imports_granularity = 'Crate'
 verbose = "Verbose"
 tab_spaces = 4
-
 max_width = 80
+newline_style = "Unix"
+
+# Code style settings
 chain_width = 50
 single_line_if_else_max_width = 30
-
 force_explicit_abi = true
 
-
+# Import settings
 reorder_imports = true
 
+# Comment settings
 wrap_comments = true
-
-newline_style = "Unix"
+comment_width = 80

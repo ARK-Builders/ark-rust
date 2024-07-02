@@ -1,8 +1,6 @@
 use serde::{de::DeserializeOwned, Serialize};
 use serde_json::Value;
-use std::fmt::Debug;
-use std::io::Read;
-use std::path::Path;
+use std::{fmt::Debug, io::Read, path::Path};
 
 use data_error::Result;
 use data_json::merge;

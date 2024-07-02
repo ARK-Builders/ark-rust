@@ -2,18 +2,20 @@ use data_error::Result;
 use data_resource::ResourceId;
 use fs_atomic_versions::atomic::AtomicFile;
 use fs_metadata::store_metadata;
-use fs_properties::load_raw_properties;
-use fs_properties::store_properties;
-use fs_properties::PROPERTIES_STORAGE_FOLDER;
+use fs_properties::{
+    load_raw_properties, store_properties, PROPERTIES_STORAGE_FOLDER,
+};
 use fs_storage::{ARK_FOLDER, PREVIEWS_STORAGE_FOLDER};
 use reqwest::header::HeaderValue;
 use scraper::{Html, Selector};
 use serde::{Deserialize, Serialize};
-use std::fmt;
-use std::marker::PhantomData;
-use std::path::Path;
-use std::str::{self, FromStr};
-use std::{io::Write, path::PathBuf};
+use std::{
+    fmt,
+    io::Write,
+    marker::PhantomData,
+    path::{Path, PathBuf},
+    str::{self, FromStr},
+};
 use url::Url;
 
 #[derive(Debug, Deserialize, Serialize)]

@@ -1,9 +1,7 @@
 use data_error::Result;
 use fs_atomic_versions::atomic::{modify_json, AtomicFile};
 use serde::{de::DeserializeOwned, Serialize};
-use std::fmt::Debug;
-use std::io::Read;
-use std::path::Path;
+use std::{fmt::Debug, io::Read, path::Path};
 
 use data_resource::ResourceId;
 use fs_storage::ARK_FOLDER;

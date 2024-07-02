@@ -1,5 +1,4 @@
-use std::io::Read;
-use std::path::PathBuf;
+use std::{io::Read, path::PathBuf};
 
 use crate::{
     provide_index, provide_root, read_storage_value, AppError, DateTime,
@@ -76,15 +75,17 @@ impl List {
             .map_err(|_| {
                 AppError::IndexError("Could not read index".to_owned())
             })?
-            .path2id
+            .resources()
             .iter()
-            .filter_map(|(path, resource)| {
+            .filter_map(|indexed_resource| {
+                let path = indexed_resource.path();
+                let id = indexed_resource.id();
                 let tags = if self.tags {
                     Some(
                         read_storage_value(
                             &root,
                             "tags",
-                            &resource.id.to_string(),
+                            &id.to_string(),
                             &None,
                         )
                         .map_or(vec![], |s| {
@@ -102,7 +103,7 @@ impl List {
                         read_storage_value(
                             &root,
                             "scores",
-                            &resource.id.to_string(),
+                            &id.to_string(),
                             &None,
                         )
                         .map_or(0, |s| s.parse::<u32>().unwrap_or(0)),
@@ -114,7 +115,7 @@ impl List {
                 let datetime = if self.modified {
                     let format = "%b %e %H:%M %Y";
                     Some(
-                        DateTime::<Utc>::from(resource.modified)
+                        DateTime::<Utc>::from(indexed_resource.last_modified())
                             .format(format)
                             .to_string(),
                     )
@@ -123,21 +124,18 @@ impl List {
                 };
 
                 let (path, resource, content) = match entry_output {
-                    EntryOutput::Both => (
-                        Some(path.to_owned().into_path_buf()),
-                        Some(resource.clone().id),
-                        None,
-                    ),
-                    EntryOutput::Path => {
-                        (Some(path.to_owned().into_path_buf()), None, None)
+                    EntryOutput::Both => {
+                        (Some(path.to_owned()), Some(id.to_owned()), None)
                     }
-                    EntryOutput::Id => (None, Some(resource.clone().id), None),
+                    EntryOutput::Path => (Some(path.to_owned()), None, None),
+                    EntryOutput::Id => (None, Some(id.to_owned()), None),
                     EntryOutput::Link => match File::open(path) {
                         Ok(mut file) => {
                             let mut contents = String::new();
                             match file.read_to_string(&mut contents) {
                                 Ok(_) => {
-                                    // Check if the content of the file is a valid url
+                                    // Check if the content of the file is a
+                                    // valid url
                                     let url = contents.trim();
                                     let url = url::Url::parse(url);
                                     match url {

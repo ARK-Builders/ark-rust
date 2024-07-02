@@ -1,7 +1,4 @@
-use serde_json::json;
-use serde_json::map::Entry;
-use serde_json::Map;
-use serde_json::Value;
+use serde_json::{json, map::Entry, Map, Value};
 
 pub fn merge(origin: Value, new_data: Value) -> Value {
     match (origin, new_data) {

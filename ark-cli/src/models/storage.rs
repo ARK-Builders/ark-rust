@@ -1,7 +1,6 @@
 use crate::ResourceId;
 use fs_atomic_versions::atomic::AtomicFile;
-use std::fmt::Write;
-use std::path::PathBuf;
+use std::{fmt::Write, path::PathBuf};
 
 use crate::{
     commands::{file_append, file_insert, format_file, format_line},
